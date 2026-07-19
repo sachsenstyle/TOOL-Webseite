@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TestNavigator – Alle Tools an einem Ort</title>
+<meta name="description" content="Carousel Creator, Kalender Generator Pro und Untertitelbrenner Pro – drei Tools für Content-Creator, die direkt im Browser laufen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tinte: #14304F;
+    --tinte-dunkel: #0C2038;
+    --papier: #F4F7F8;
+    --karte: #C9D6DC;
+    --leuchtfeuer: #E9A13B;
+    --leuchtfeuer-dunkel: #C9821D;
+    --weiss: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Public Sans', system-ui, sans-serif;
+    background: var(--papier);
+    color: var(--tinte);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ---------- Kopf ---------- */
+  header {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--tinte);
+    text-decoration: none;
+  }
+  .logo svg { flex-shrink: 0; }
+  .kopf-hinweis { color: rgba(20,48,79,0.55); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 24px 40px;
+    position: relative;
+  }
+  .hero .mono {
+    color: var(--leuchtfeuer-dunkel);
+    display: inline-block;
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+  }
+  .hero p {
+    margin-top: 22px;
+    max-width: 52ch;
+    font-size: 1.08rem;
+    color: rgba(20,48,79,0.78);
+  }
+
+  /* ---------- Routenlinie (Signatur) ---------- */
+  .route {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 0;
+  }
+  .route path {
+    fill: none;
+    stroke: var(--karte);
+    stroke-width: 2;
+    stroke-dasharray: 6 8;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .route path {
+      stroke-dashoffset: 600;
+      animation: kurs 2.4s ease-out forwards;
+    }
+    @keyframes kurs {
+      to { stroke-dashoffset: 0; }
+    }
+  }
+
+  /* ---------- Tool-Karten ---------- */
+  .tools {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 24px 24px 72px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    position: relative;
+    z-index: 1;
+  }
+  .karte {
+    background: var(--weiss);
+    border: 1.5px solid var(--karte);
+    border-radius: 14px;
+    padding: 30px 26px 26px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .karte:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(20,48,79,0.12);
+    border-color: var(--leuchtfeuer);
+  }
+  .wegpunkt {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--leuchtfeuer);
+    background: var(--weiss);
+    margin-bottom: 18px;
+  }
+  .karte .mono { color: rgba(20,48,79,0.5); margin-bottom: 8px; }
+  .karte h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 1.45rem;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .karte p {
+    color: rgba(20,48,79,0.75);
+    font-size: 0.97rem;
+    flex-grow: 1;
+    margin-bottom: 24px;
+  }
+  .karte a {
+    display: inline-block;
+    text-align: center;
+    background: var(--tinte);
+    color: var(--weiss);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    border-radius: 9px;
+    transition: background 0.15s ease;
+  }
+  .karte a:hover { background: var(--tinte-dunkel); }
+  .karte a:focus-visible,
+  .fuss a:focus-visible,
+  .logo:focus-visible {
+    outline: 3px solid var(--leuchtfeuer);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Vertrauensleiste ---------- */
+  .leiste {
+    background: var(--tinte);
+    color: var(--papier);
+  }
+  .leiste-innen {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 26px 24px;
+    display: flex;
+    justify-content: center;
+    gap: clamp(20px, 6vw, 70px);
+    flex-wrap: wrap;
+  }
+  .leiste .mono { color: var(--leuchtfeuer); }
+
+  /* ---------- Fuß ---------- */
+  .fuss {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 34px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: rgba(20,48,79,0.55);
+    font-size: 0.9rem;
+  }
+  .fuss a {
+    color: rgba(20,48,79,0.7);
+    text-decoration: none;
+    margin-left: 18px;
+  }
+  .fuss a:hover { color: var(--tinte); text-decoration: underline; }
+
+  /* ---------- Mobil ---------- */
+  @media (max-width: 820px) {
+    .tools { grid-template-columns: 1fr; }
+    .route { display: none; }
+    .kopf-hinweis { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">
+    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+      <circle cx="13" cy="13" r="11.5" fill="none" stroke="#14304F" stroke-width="2"/>
+      <path d="M13 5 L16 13 L13 21 L10 13 Z" fill="#E9A13B"/>
+    </svg>
+    TestNavigator
+  </a>
+  <span class="mono kopf-hinweis">Tools für Content-Creator</span>
+</header>
+
+<section class="hero">
+  <svg class="route" viewBox="0 0 1080 420" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M 900 40 C 1000 140, 850 240, 620 300 S 250 380, 120 400" pathLength="600"/>
+  </svg>
+  <span class="mono">Drei Tools · Ein Ort</span>
+  <h1>Alle meine Tools auf einen Blick.</h1>
+  <p>Karussells gestalten, Kalender erstellen, Untertitel einbrennen – drei Werkzeuge, die direkt im Browser laufen. Keine Installation, kein Abo. Einmal kaufen, sofort loslegen.</p>
+</section>
+
+<section class="tools">
+  <article class="karte">
+    <div class="wegpunkt"></div>
+    <span class="mono">Social Media</span>
+    <h2>Carousel Creator</h2>
+    <p>Erstelle fertige Karussell-Posts für Instagram &amp; Co. in wenigen Minuten: Design wählen, Texte eintragen, Bilder herunterladen.</p>
+    <a href="https://sachsenstyle.gumroad.com/l/bbpbkf">Zum Carousel Creator</a>
+  </article>
+
+  <article class="karte">
+    <div class="wegpunkt"></div>
+    <span class="mono">Planung</span>
+    <h2>Kalender Generator Pro</h2>
+    <p>Gestalte eigene Kalender zum Ausdrucken oder Verkaufen – Monat für Monat, ganz nach deinem Design.</p>
+    <a href="https://sachsenstyle.gumroad.com/l/chcvq">Zum Kalender Generator</a>
+  </article>
+
+  <article class="karte">
+    <div class="wegpunkt"></div>
+    <span class="mono">Video</span>
+    <h2>Untertitelbrenner Pro</h2>
+    <p>Brenne Untertitel direkt in deine Videos ein – perfekt für Reels, TikTok und YouTube Shorts. Ohne Schnittprogramm.</p>
+    <a href="https://sachsenstyle.gumroad.com/l/bhnzmv">Zum Untertitelbrenner</a>
+  </article>
+</section>
+
+<div class="leiste">
+  <div class="leiste-innen">
+    <span class="mono">Läuft im Browser</span>
+    <span class="mono">Einmal zahlen statt Abo</span>
+    <span class="mono">Sofort startklar</span>
+  </div>
+</div>
+
+<footer class="fuss">
+  <span>© 2026 TestNavigator</span>
+  <span>
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+  </span>
+</footer>
+
+</body>
+</html>
